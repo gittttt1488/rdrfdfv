@@ -1,0 +1,6 @@
+{
+  "appId": "com.tovskavo.world",
+  "appName": "Tovs Kavo World",
+  "webDir": "dist",
+  "bundledWebRuntime": false
+}

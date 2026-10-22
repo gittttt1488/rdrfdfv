@@ -1,0 +1,33 @@
+export const toolNames=['Basic Brush','Lipstick','Lip Gloss','Blush','Eyeshadow','Eyeliner','Mascara','Foundation','Concealer','Setting Powder','Contour','Highlighter','Eyebrow Pencil','Eyebrow Gel','Beauty Sponge','Blending Brush','Lip Liner','Nail Polish','Nail Art Brush','Face Glitter','Face Paint','Freckle Pen','Color Corrector','Hair Color Brush','Makeup Remover'];
+export const regions=['cheeks','lips','lips','cheeks','eyelids','eyes','lashes','face','face','face','cheeks','cheeks','brows','brows','face','blend','lips','nails','nails','face','face','cheeks','face','hair','erase'];
+export const icons=['🖌️','💄','✨','🌷','🎨','✒️','🪄','🧴','🧴','☁️','🖌️','🌟','✏️','🪄','🧽','🖌️','✏️','💅','🖌️','✨','🎭','✏️','🎨','🌈','🫧'];
+export const slug=(s:string)=>s.toLowerCase().replaceAll(' ','-');
+export const items=[...toolNames.map((name,i)=>({id:slug(name),name,price:i?100:0,category:'Beauty Tools',icon:icons[i],region:regions[i]})),
+ ...[['Hair Clip',10,'Accessories','🎀'],['Cute Sticker',10,'Decorations','🌸'],['Small Plant',20,'Furniture','🪴'],['Basic Bracelet',20,'Accessories','📿'],['Cloud Cushion',20,'Furniture','☁️'],['Star Lamp',20,'Furniture','🌟'],['Peach Dress',20,'Clothing','👗'],['Mint Sneakers',20,'Clothing','👟'],['Bob Hair',20,'Hairstyles','💇'],['Curly Hair',20,'Hairstyles','🌻'],['Teddy Friend',20,'Character Items','🧸'],['Rainbow Set',100,'Special Collections','🌈']].map(([name,price,category,icon])=>({id:slug(name as string),name:name as string,price:price as number,category:category as string,icon:icon as string,region:''}))];
+export const games=[
+ {id:'jump',name:'Jump Adventure',icon:'🐰',color:'#d9f1c8',desc:'Little leaps. Big adventures.',help:'Tap, click or press Space to jump over gaps. Release before jumping again. Falling costs 100 Coins.'},
+ {id:'fly',name:'Flying Adventure',icon:'🐤',color:'#d7eafb',desc:'Find your wings in the clouds.',help:'Tap or press Space for one flap. Release before flapping again. Fly through six cloud gates.'},
+ {id:'catch',name:'Coin Catcher',icon:'🧺',color:'#ffedb3',desc:'A pocket full of sunshine.',help:'Move the basket with touch, mouse or arrow keys. Catch eight stars before five fall.'},
+ {id:'memory',name:'Memory Match',icon:'🍓',color:'#ffe0e7',desc:'A little game for a brilliant mind.',help:'Turn over cards and match all six pairs. You have 24 turns.'},
+ {id:'color',name:'Color Matching',icon:'🌈',color:'#e4dcfc',desc:'Follow the rainbow.',help:'Choose the named color six times. Three mistakes end the level.'},
+ {id:'puzzle',name:'Puzzle Challenge',icon:'🧩',color:'#c9eee6',desc:'Every piece has a place.',help:'Slide tiles beside the empty square to arrange 1–8. Finish within 100 moves.'},
+ {id:'runner',name:'Obstacle Runner',icon:'🦊',color:'#ffe3c7',desc:'On your marks, get set, play!',help:'Tap or press Space to jump over the soft blocks. Each press gives one jump.'},
+ {id:'dress',name:'Dress-Up Challenge',icon:'👗',color:'#f9dafa',desc:'Dress for your dream day.',help:'Read the invitation and choose the matching outfit for all four guests. Three mistakes end the level.'},
+ {id:'timing',name:'Timing Challenge',icon:'⏱️',color:'#d9eafc',desc:'Catch the perfect moment.',help:'Stop the moving star inside the mint zone. Land three perfect stops in five tries.'},
+ {id:'sorting',name:'Object Sorting',icon:'🧸',color:'#f3e3cc',desc:'A happy home for everything.',help:'Sort each object into the right basket: Food, Toys or Clothes. Three mistakes end the level.'}
+];
+export const places=[['home','Character Home','🏡','#ffe6c7'],['bedroom','Bedroom','🛏️','#eedbff'],['bathroom','Bathroom','🛁','#d5f0fa'],['studio','Beauty Studio','💄','#ffdae6'],['clothes','Clothing Store','👗','#ffe0c4'],['mall','Shopping Mall','🛍️','#e5d9fc'],['park','Park','🌳','#daf1c8'],['playground','Playground','🛝','#ffeab0'],['cafe','Café','☕','#f4dfcc'],['arcade','Mini-Game Arcade','🎮','#dfd9ff'],['salon','Hair Salon','✂️','#d2efe7'],['fashion','Fashion Studio','🧵','#ffdee9'],['furniture','Furniture Shop','🛋️','#ffe5b8'],['creator','Character Creator','🎨','#dce8ff'],['academy','Tutorial Academy','🎓','#e5efd1']];
+export const palette=['#f486a8','#b48ce6','#7acbb5','#f4b56e','#78b7e2','#e96869','#a36b52','#f7d66f'];
+export type Stroke={tool:string,color:string,x:number,y:number,size:number,opacity:number};
+export const defaultCharacter={name:'Poppy',skin:'#eebd9d',hair:'#765044',hairStyle:'waves',eyes:'round',brows:'soft',mouth:'smile',shape:'round',outfit:'#a9c8b1',shoes:'#f6c574',accessory:'none',strokes:[] as Stroke[]};
+export function preset(seed:number,owned?:string[]){
+ const names=['Soft Pink','Princess Glow','Rainbow Eyes','Cute Peach','Sparkle Star','Pastel Dream','Fairy Style','Natural Glow','Party Glam','Sunset Colors'];
+ const combinations=[['basic-brush','basic-brush','blending-brush'],['highlighter','lip-gloss','blush'],['eyeshadow','eyeliner','face-glitter'],['blush','lipstick','freckle-pen'],['face-glitter','eyeshadow','highlighter'],['eyeshadow','lip-gloss','blending-brush'],['face-paint','face-glitter','hair-color-brush'],['foundation','blush','lip-gloss'],['eyeliner','lipstick','nail-polish'],['eyeshadow','blush','lip-liner']];
+ const i=seed%palette.length;
+ const steps=combinations[seed%10].map((required,j)=>{const tool=owned&&!owned.includes(required)?'basic-brush':required;const region=items.find(x=>x.id===tool)?.region||'cheeks';const point=region==='lips'?[150,181]:['eyes','eyelids','lashes'].includes(region)?[j%2?183:117,region==='eyelids'?128:137]:region==='hair'?[150,60]:region==='nails'?[j%2?237:63,297]:region==='brows'?[j%2?184:116,113]:region==='face'?[150,155]:j===0?[108,162]:j===1?[192,162]:[150,170];return {tool,required,region,x:point[0],y:point[1],color:palette[(i+(seed>=10?j:0))%8]};});
+ return {id:`preset-${seed}`,name:names[seed%10]+(seed>=10?` ${Math.floor(seed/10)+1}`:''),color:palette[i],steps};
+}
+export function scorePreset(seed:number,strokes:Stroke[],owned:string[]){const p=preset(seed,owned);let score=0;for(const step of p.steps){let best=0;for(const s of strokes){if(s.tool!==step.tool||!owned.includes(s.tool))continue;const dist=Math.hypot(s.x-step.x,s.y-step.y);const rgb=(h:string)=>[1,3,5].map(n=>parseInt(h.slice(n,n+2),16));const a=rgb(s.color),b=rgb(step.color);const accuracy=1-Math.min(1,Math.hypot(...a.map((v,i)=>v-b[i]))/442);best=Math.max(best,Math.max(0,1-dist/45)*accuracy*100);}score+=best;}return Math.round(score/3);}
+export const presetReward=(score:number)=>score>=95?400:score>=80?350:score>=55?150:0;
+
+export const newId=()=>typeof crypto.randomUUID==='function'?crypto.randomUUID():Array.from(crypto.getRandomValues(new Uint8Array(16)),n=>n.toString(16).padStart(2,'0')).join('');
